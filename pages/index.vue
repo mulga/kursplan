@@ -1,12 +1,10 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">
-      Kurs Başlangıç ve Bitiş Tarihi Hesaplama
-    </h1>
+    <h1 class="text-3xl font-bold mb-6">Kursbeginn- und Enddatum berechnen</h1>
 
     <form @submit.prevent="calculateEndDate" class="space-y-4">
       <div>
-        <label for="state" class="block font-semibold">Eyalet</label>
+        <label for="state" class="block font-semibold">Bundesland</label>
         <select
           v-model="selectedState"
           id="state"
@@ -23,9 +21,7 @@
       </div>
 
       <div>
-        <label for="start-date" class="block font-semibold"
-          >Kurs Başlangıç Tarihi</label
-        >
+        <label for="start-date" class="block font-semibold">Kursbeginn</label>
         <input
           type="date"
           v-model="startDate"
@@ -37,7 +33,7 @@
 
       <div>
         <label for="weekly-days" class="block font-semibold"
-          >Haftalık Ders Gün Sayısı</label
+          >Anzahl der Unterrichtstage pro Woche</label
         >
         <select
           v-model.number="weeklyDays"
@@ -52,8 +48,9 @@
 
       <div>
         <label for="daily-hours" class="block font-semibold"
-          >Günlük Ders Saati</label
+          >Tägliche Unterrichtsstunden</label
         >
+
         <input
           type="number"
           v-model.number="dailyHours"
@@ -67,7 +64,7 @@
 
       <div>
         <label for="total-hours" class="block font-semibold"
-          >Toplam Ders Saati</label
+          >Gesamtanzahl der Unterrichtsstunden</label
         >
         <input
           type="number"
@@ -86,7 +83,7 @@
       />
 
       <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
-        Bitiş Tarihini Hesapla
+        Enddatum berechnen
       </button>
     </form>
 

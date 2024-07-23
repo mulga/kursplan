@@ -1,11 +1,11 @@
 <template>
   <div>
     <h3 class="text-xl font-semibold mb-2">
-      Resmi Tatil ve Öğretmen İzin Günleri
+      Feiertage und Lehrkraftfreistellungstage
     </h3>
     <div class="mb-4">
       <label for="holiday-date" class="block font-semibold"
-        >Yeni Resmi Tatil Günü Ekle</label
+        >Neuen Feiertag hinzufügen</label
       >
       <input
         type="date"
@@ -17,13 +17,13 @@
         @click="addHoliday"
         class="mt-2 bg-green-500 text-white px-4 py-2 rounded"
       >
-        Tatil Ekle
+        Feiertag hinzufügen
       </button>
     </div>
 
     <div class="mb-4">
       <label for="absence-date" class="block font-semibold"
-        >Yeni Öğretmen İzin Günü Ekle</label
+        >Neuen Lehrkraftfreistellungstag hinzufügen</label
       >
       <input
         type="date"
@@ -35,29 +35,29 @@
         @click="addAbsence"
         class="mt-2 bg-green-500 text-white px-4 py-2 rounded"
       >
-        İzin Ekle
+        Freistellungstag hinzufügen
       </button>
     </div>
 
     <div>
-      <h4 class="font-semibold mb-2">Resmi Tatil Günleri:</h4>
+      <h4 class="font-semibold mb-2">Feiertage:</h4>
       <ul>
         <li v-for="(holiday, index) in holidays" :key="index">
           {{ holiday }}
           <button @click="removeHoliday(index)" class="text-red-500 ml-2">
-            Sil
+            Löschen
           </button>
         </li>
       </ul>
     </div>
 
     <div>
-      <h4 class="font-semibold mb-2">Öğretmen İzin Günleri:</h4>
+      <h4 class="font-semibold mb-2">Lehrkraftfreistellungstage:</h4>
       <ul>
         <li v-for="(absence, index) in teacherAbsences" :key="index">
           {{ absence }}
           <button @click="removeAbsence(index)" class="text-red-500 ml-2">
-            Sil
+            Löschen
           </button>
         </li>
       </ul>
