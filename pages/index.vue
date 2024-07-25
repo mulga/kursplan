@@ -1,6 +1,6 @@
 <template>
   <div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold mb-6">Kursbeginn- und Enddatum berechnen</h1>
+    <h1 class="text-3xl font-bold mb-6">Kursdatum berechnen</h1>
 
     <form @submit.prevent="calculateEndDate" class="space-y-4">
       <div>
@@ -87,8 +87,8 @@
       </button>
     </form>
 
-    <div v-if="endDate" class="mt-6">
-      <h2 class="text-2xl font-bold">Kurs Bitiş Tarihi</h2>
+    <div v-if="endDate" class="mt-6 p-3 bg-green-300">
+      <h2 class="text-2xl font-bold">Kursendedatum</h2>
       <p class="text-xl">{{ formatDate(endDate) }}</p>
     </div>
 
@@ -116,9 +116,9 @@ export default {
   data() {
     return {
       states: [
-        { value: "rlp", text: "RLP" },
-        { value: "bw", text: "BW" },
-        { value: "sar", text: "SAR" },
+        { value: "rlp", text: "RLP", disabled: true },
+        { value: "bw", text: "BW", disabled: true },
+        { value: "sar", text: "SAR", disabled: true },
       ],
       selectedState: "rlp",
       startDate: "",
@@ -136,11 +136,22 @@ export default {
           "2024-12-31",
           "2025-01-01",
           "2025-01-06",
+          "2025-04-18",
+          "2025-04-21",
+          "2025-05-01",
+          "2025-05-29",
+          "2025-06-09",
+          "2025-06-19",
+          "2025-10-03",
+          "2025-11-01",
+          "2025-12-24",
+          "2025-12-25",
+          "2025-12-26",
         ],
-        bw: ["2024-01-01", "2024-03-15", "2024-08-30"],
-        sar: ["2024-01-01", "2024-07-01", "2024-10-29"],
+        bw: [],
+        sar: [],
       },
-      teacherAbsences: ["2024-05-10", "2024-06-15"],
+      teacherAbsences: [],
     };
   },
   methods: {

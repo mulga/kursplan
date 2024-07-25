@@ -1,16 +1,16 @@
 <template>
   <div v-if="schedule.length" class="mt-8">
-    <h3 class="text-xl font-semibold mb-4">Kurs Programı</h3>
+    <h3 class="text-xl font-semibold mb-4">Kursprogram</h3>
     <div class="space-y-4">
       <div
         v-for="(block, index) in schedule"
         :key="index"
         class="p-4 bg-gray-100 rounded"
       >
-        <h4 class="font-semibold">Bölüm {{ index + 1 }}</h4>
+        <h4 class="font-semibold">Abschlag {{ index + 1 }}</h4>
         <p>
           {{ block.startDate }} - {{ block.endDate }}
-          <span class="font-semibold">(Toplam {{ block.hours }} saat)</span>
+          <span class="font-semibold">(insgesamt {{ block.hours }} UE)</span>
         </p>
       </div>
     </div>

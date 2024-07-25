@@ -44,7 +44,10 @@
       <ul>
         <li v-for="(holiday, index) in holidays" :key="index">
           {{ holiday }}
-          <button @click="removeHoliday(index)" class="text-red-500 ml-2">
+          <button
+            @click="removeHoliday(index)"
+            class="button-remove text-red-500 ml-2"
+          >
             Löschen
           </button>
         </li>
@@ -56,7 +59,10 @@
       <ul>
         <li v-for="(absence, index) in teacherAbsences" :key="index">
           {{ absence }}
-          <button @click="removeAbsence(index)" class="text-red-500 ml-2">
+          <button
+            @click="removeAbsence(index)"
+            class="text-red-500 ml-2 text-sm bg-red-300"
+          >
             Löschen
           </button>
         </li>
