@@ -104,12 +104,15 @@
         :teacherAbsences="teacherAbsences"
       />
 
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+      <button
+        type="submit"
+        class="bg-blue-500 text-white px-4 py-2 rounded mb-20"
+      >
         Enddatum berechnen
       </button>
     </form>
 
-    <div v-if="endDate" class="mt-6 p-3 bg-green-300">
+    <div v-if="endDate" class="mt-6 p-3 bg-green-300 mb-10">
       <h2 class="text-2xl font-bold">Kursendedatum</h2>
       <p class="text-xl">{{ formatDate(endDate) }}</p>
     </div>
