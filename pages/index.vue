@@ -50,8 +50,8 @@
         <label for="daily-hours" class="block font-semibold"
           >Tägliche Unterrichtsstunden</label
         >
-
-        <input
+        <!-- eski input  -->
+        <!-- <input
           type="number"
           v-model.number="dailyHours"
           id="daily-hours"
@@ -59,14 +59,25 @@
           max="8"
           class="form-input mt-1 block w-full"
           required
-        />
+        /> -->
+        <!-- yeni select -->
+
+        <select
+          name=""
+          id="daily-hours"
+          v-model.number="dailyHours"
+          class="form-input mt-1 block w-full"
+        >
+          <option v-for="n in 5" :key="n" :value="n">{{ n }}</option>
+        </select>
       </div>
 
       <div>
         <label for="total-hours" class="block font-semibold"
           >Gesamtanzahl der Unterrichtsstunden</label
         >
-        <input
+        <!-- eski input  Gesamtanzahl der Unterrichtsstunden-->
+        <!-- <input
           type="number"
           v-model.number="totalHours"
           id="total-hours"
@@ -74,7 +85,18 @@
           max="1000"
           class="form-input mt-1 block w-full"
           required
-        />
+        /> -->
+        <select
+          name=""
+          id="daily-hours"
+          v-model.number="totalHours"
+          class="form-input mt-1 block w-full"
+          required
+        >
+          <option v-for="th in totalHours" :key="th" :value="th">
+            {{ th }}
+          </option>
+        </select>
       </div>
 
       <Calendar
@@ -124,7 +146,7 @@ export default {
       startDate: "",
       weeklyDays: 5, // Haftalık ders gün sayısı
       dailyHours: 4,
-      totalHours: 500,
+      totalHours: [400, 500, 600],
       endDate: null,
       holidays: {
         rlp: [
