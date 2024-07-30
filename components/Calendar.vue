@@ -4,9 +4,9 @@
       Feiertage und Lehrkraftfreistellungstage
     </h3>
     <div class="mb-4">
-      <label for="holiday-date" class="block font-semibold"
-        >Neuen Feiertag hinzufügen</label
-      >
+      <label for="holiday-date" class="block font-semibold">
+        Neuen Feiertag hinzufügen
+      </label>
       <input
         type="date"
         v-model="newHoliday"
@@ -22,9 +22,9 @@
     </div>
 
     <div class="mb-4">
-      <label for="absence-date" class="block font-semibold"
-        >Neuen Lehrkraftfreistellungstag hinzufügen</label
-      >
+      <label for="absence-date" class="block font-semibold">
+        Neuen Lehrkraftfreistellungstag hinzufügen
+      </label>
       <input
         type="date"
         v-model="newAbsence"
@@ -72,36 +72,53 @@
 </template>
 
 <script>
+import { ref, toRefs } from "vue";
+
 export default {
   props: {
     holidays: Array,
     teacherAbsences: Array,
   },
-  data() {
-    return {
-      newHoliday: "",
-      newAbsence: "",
+  setup(props) {
+    const { holidays, teacherAbsences } = toRefs(props);
+    const newHoliday = ref("");
+    const newAbsence = ref("");
+
+    const addHoliday = () => {
+      if (newHoliday.value && !holidays.value.includes(newHoliday.value)) {
+        holidays.value.push(newHoliday.value);
+        newHoliday.value = "";
+      }
     };
-  },
-  methods: {
-    addHoliday() {
-      if (this.newHoliday && !this.holidays.includes(this.newHoliday)) {
-        this.holidays.push(this.newHoliday);
-        this.newHoliday = "";
+
+    const removeHoliday = (index) => {
+      holidays.value.splice(index, 1);
+    };
+
+    const addAbsence = () => {
+      if (
+        newAbsence.value &&
+        !teacherAbsences.value.includes(newAbsence.value)
+      ) {
+        teacherAbsences.value.push(newAbsence.value);
+        newAbsence.value = "";
       }
-    },
-    removeHoliday(index) {
-      this.holidays.splice(index, 1);
-    },
-    addAbsence() {
-      if (this.newAbsence && !this.teacherAbsences.includes(this.newAbsence)) {
-        this.teacherAbsences.push(this.newAbsence);
-        this.newAbsence = "";
-      }
-    },
-    removeAbsence(index) {
-      this.teacherAbsences.splice(index, 1);
-    },
+    };
+
+    const removeAbsence = (index) => {
+      teacherAbsences.value.splice(index, 1);
+    };
+
+    return {
+      newHoliday,
+      newAbsence,
+      addHoliday,
+      removeHoliday,
+      addAbsence,
+      removeAbsence,
+      holidays,
+      teacherAbsences,
+    };
   },
 };
 </script>

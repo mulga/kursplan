@@ -50,6 +50,18 @@
         <label for="daily-hours" class="block font-semibold"
           >Tägliche Unterrichtsstunden</label
         >
+        <!-- eski input  -->
+        <!-- <input
+          type="number"
+          v-model.number="dailyHours"
+          id="daily-hours"
+          min="1"
+          max="8"
+          class="form-input mt-1 block w-full"
+          required
+        /> -->
+        <!-- yeni select -->
+
         <select
           name=""
           id="daily-hours"
@@ -64,10 +76,20 @@
         <label for="total-hours" class="block font-semibold"
           >Gesamtanzahl der Unterrichtsstunden</label
         >
+        <!-- eski input  Gesamtanzahl der Unterrichtsstunden-->
+        <!-- <input
+          type="number"
+          v-model.number="totalHours"
+          id="total-hours"
+          min="1"
+          max="1000"
+          class="form-input mt-1 block w-full"
+          required
+        /> -->
         <select
           name=""
-          id="total-hours"
-          v-model.number="selectedTotalHours"
+          id="daily-hours"
+          v-model.number="totalHours"
           class="form-input mt-1 block w-full"
           required
         >
@@ -99,7 +121,7 @@
       :startDate="startDate"
       :endDate="endDate"
       :dailyHours="dailyHours"
-      :totalHours="selectedTotalHours"
+      :totalHours="totalHours"
       :weeklyDays="weeklyDays"
       :holidays="holidays[selectedState]"
       :teacherAbsences="teacherAbsences"
@@ -107,76 +129,82 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import Calendar from "@/components/Calendar.vue";
 import Schedule from "@/components/Schedule.vue";
-import { ref } from "vue";
 
-const states = ref([
-  { value: "rlp", text: "RLP", disabled: true },
-  // { value: "bw", text: "BW", disabled: true },
-  // { value: "sar", text: "SAR", disabled: true },
-]);
+export default {
+  components: {
+    Calendar,
+    Schedule,
+  },
+  data() {
+    return {
+      states: [
+        { value: "rlp", text: "RLP", disabled: true },
+        // { value: "bw", text: "BW", disabled: true },
+        // { value: "sar", text: "SAR", disabled: true },
+      ],
+      selectedState: "rlp",
+      startDate: "",
+      weeklyDays: 5, // Haftalık ders gün sayısı
+      dailyHours: 4,
+      totalHours: [400, 500, 600],
+      endDate: null,
+      holidays: {
+        rlp: [
+          "2024-10-03",
+          "2024-11-01",
+          "2024-12-24",
+          "2024-12-25",
+          "2024-12-26",
+          "2024-12-31",
+          "2025-01-01",
+          "2025-01-06",
+          "2025-04-18",
+          "2025-04-21",
+          "2025-05-01",
+          "2025-05-29",
+          "2025-06-09",
+          "2025-06-19",
+          "2025-10-03",
+          "2025-11-01",
+          "2025-12-24",
+          "2025-12-25",
+          "2025-12-26",
+        ],
+      },
+      teacherAbsences: [],
+    };
+  },
+  methods: {
+    calculateEndDate() {
+      let hoursLeft = this.totalHours;
+      let currentDate = new Date(this.startDate);
+      const maxWeeklyDays = [1, 2, 3, 4, 5]; // Haftalık ders günleri (Pazartesi - Cuma)
+      const activeDays = maxWeeklyDays.slice(0, this.weeklyDays);
 
-const selectedState = ref("rlp");
-const startDate = ref("");
-const weeklyDays = ref(5); // Haftalık ders gün sayısı
-const dailyHours = ref(4);
-const totalHours = ref([400, 500, 600]);
-const selectedTotalHours = ref(totalHours.value[0]);
-const endDate = ref(null);
+      while (hoursLeft > 0) {
+        currentDate.setDate(currentDate.getDate() + 1);
+        const dayOfWeek = currentDate.getDay();
+        const formattedDate = currentDate.toISOString().split("T")[0];
 
-const holidays = ref({
-  rlp: [
-    "2024-10-03",
-    "2024-11-01",
-    "2024-12-24",
-    "2024-12-25",
-    "2024-12-26",
-    "2024-12-31",
-    "2025-01-01",
-    "2025-01-06",
-    "2025-04-18",
-    "2025-04-21",
-    "2025-05-01",
-    "2025-05-29",
-    "2025-06-09",
-    "2025-06-19",
-    "2025-10-03",
-    "2025-11-01",
-    "2025-12-24",
-    "2025-12-25",
-    "2025-12-26",
-  ],
-});
-const teacherAbsences = ref([]);
+        if (
+          activeDays.includes(dayOfWeek) &&
+          !this.holidays[this.selectedState].includes(formattedDate) &&
+          !this.teacherAbsences.includes(formattedDate)
+        ) {
+          hoursLeft -= this.dailyHours;
+        }
+      }
 
-function calculateEndDate() {
-  let hoursLeft = selectedTotalHours.value;
-  let currentDate = new Date(startDate.value);
-  const maxWeeklyDays = [1, 2, 3, 4, 5]; // Haftalık ders günleri (Pazartesi - Cuma)
-  const activeDays = maxWeeklyDays.slice(0, weeklyDays.value);
-
-  while (hoursLeft > 0) {
-    currentDate.setDate(currentDate.getDate() + 1);
-    const dayOfWeek = currentDate.getDay();
-    const formattedDate = currentDate.toISOString().split("T")[0];
-
-    if (
-      activeDays.includes(dayOfWeek) &&
-      !holidays.value[selectedState.value].includes(formattedDate) &&
-      !teacherAbsences.value.includes(formattedDate)
-    ) {
-      hoursLeft -= dailyHours.value;
-    }
-  }
-
-  endDate.value = currentDate;
-}
-
-function formatDate(date) {
-  return date.toLocaleDateString();
-}
+      this.endDate = currentDate;
+    },
+    formatDate(date) {
+      return date.toLocaleDateString();
+    },
+  },
+};
 </script>
 
 <style scoped>
